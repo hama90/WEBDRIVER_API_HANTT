@@ -28,7 +28,7 @@ public class Topic_01_CheckEnvironment {
 	
 	@Test
 	public void TC_01_CheckTitle() {
-		String homePageTitle = driver.getTitle();
+		String  homePageTitle = driver.getTitle();
 		Assert.assertEquals(homePageTitle, "Home page");
 	}
 
