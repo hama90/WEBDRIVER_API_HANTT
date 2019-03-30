@@ -1,10 +1,10 @@
 package selenium;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ById;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,7 +27,7 @@ public class Topic_08_Popup_Frame_Iframe {
 		
 	}
 
-	@Test
+	//@Test
 	public void TC_01_() {
 	    driver.get("http://www.hdfcbank.com/");
 	    /*
@@ -142,6 +142,49 @@ public class Topic_08_Popup_Frame_Iframe {
 		Assert.assertEquals(homePageTitle, "Home page");
 	}
 
+	@Test
+	public void TC_00_Sipmle () throws Exception {
+	    driver.get("https://daominhdam.github.io/basic-form/index.html");
+	    String parentId = driver.getWindowHandle(); 
+	    System.out.println("ParentID : = " + parentId );
+	    
+	    //Result: ParentID : = {6c71756b-9f3d-4e95-904e-2c0235f5aa0c}
+	    
+	    //Click: Click here link 
+	    driver.findElement(By.xpath("//a[@target='_blank' and text()='Click Here']")).click(); 
+	    Thread.sleep(3000);
+	    
+	    // Get ra tat ca cac ID cua cac cua so dang co
+	    Set<String> allWindows = driver.getWindowHandles() ; 
+	    
+	    //Switch sang 1 window khac voi parent window
+	    for(String childID : allWindows) {
+		System.out.println("Id window : " + childID);
+		 if (!childID.equals(parentId) ) {
+		     driver.switchTo().window(childID); 
+		     Thread.sleep(3000);
+		     break;
+		 }
+	    }
+	    
+	    //Verify title cua window hien tai
+	    Assert.assertEquals(driver.getTitle(), "Google");
+	    
+	    //Switch tu window phu ve parent chinh
+	    for (String childId :allWindows) {
+		if (childId.equals(parentId))
+		{
+		    driver.switchTo().window(childId);
+		    Thread.sleep(3000);
+		    break;
+		}
+	    }
+	    
+	    //Verify
+	    Assert.assertEquals(driver.getTitle(), "SELENIUM WEBDRIVER FORM DEMO");
+	}
+	
+	
 	@AfterTest
 	public void afterTest() {
 		driver.quit();
