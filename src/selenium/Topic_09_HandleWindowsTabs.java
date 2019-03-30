@@ -55,7 +55,7 @@ public class Topic_09_HandleWindowsTabs {
 	    
 	}
 	
-	//@Test
+	@Test
 	public void TC_02_TestScript03() throws Exception {
 	    driver.get("http://www.hdfcbank.com/");
 	    
@@ -63,7 +63,14 @@ public class Topic_09_HandleWindowsTabs {
 	    
 	    //Handle close popup 
 	    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-	    List <WebElement> notificationIframe = driver.findElements(By.xpath("//iframe[@id='vizury-notification-template']"));
+	    
+	    //Update
+	    WebElement popupbanner = driver.findElement(By.xpath("//img[@class='popupbanner']"));
+	    driver.findElement(By.xpath("//img[@class='popupCloseButton']")).click();
+	    
+	    //Update when popup of page has been changed
+	    /*
+	    List <WebElement> notificationIframe = driver.findElements(By.xpath("//img[@class='popupbanner']"));
 	    int notificationIframeSize = notificationIframe.size() ; 
 	    System.out.println("Notification Iframe displayed = " + notificationIframeSize);
 	     if (notificationIframeSize > 0 ) {
@@ -74,6 +81,9 @@ public class Topic_09_HandleWindowsTabs {
 		    driver.switchTo().defaultContent(); 
 		     }
 	    System.out.println("Pass handle popup!");
+	    
+	    */
+	    
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	    
 	    //Click Agri link
@@ -109,7 +119,7 @@ public class Topic_09_HandleWindowsTabs {
 	    Thread.sleep(3000);
 	}
 
-	@Test
+	//@Test
 	public void TC_03_TestScript04() throws Exception {
 	    driver.get("http://live.guru99.com/index.php/");
 	    
