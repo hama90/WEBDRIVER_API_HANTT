@@ -1,6 +1,7 @@
 package selenium;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -16,7 +17,7 @@ import org.testng.annotations.Test;
 
 import com.sun.jmx.snmp.Timestamp;
 
-public class Topic_12_Wait {
+public class Topic_12_Wait_PartI {
     WebDriver driver;
     WebDriverWait waitExplicit ; 
     By startBtn = By.xpath("//button[text()='Start']"); 
@@ -60,14 +61,14 @@ public class Topic_12_Wait {
 	    
 	}
 	
-	@Test
+	//@Test
 	public void TC_03_InvisibleLoadingIcon() {
 	    
 	    driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
-	    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	    driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 	    driver.manage().window().maximize();
 	    
-	    waitExplicit = new WebDriverWait(driver, 2); 
+	    waitExplicit = new WebDriverWait(driver, 5); 
 	    
 	    driver.findElement(startBtn).click();
 	    
@@ -77,19 +78,74 @@ public class Topic_12_Wait {
 	}
 	
 	//@Test
-	public void TC_04_HelloWorldTextVisibleFailed() {
-	    
-	    driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-	    waitExplicit = new WebDriverWait(driver, 2);	     
-	   
+	//Im= 3, Ex = 4 ==> PASSED ; Im=2 + Ex = 4 ==> FAILED
+	public void TC_04_HelloWorldTextVisibleFailed() {	    
+	    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+	    waitExplicit = new WebDriverWait(driver, 4);   	   
 	    driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
+	    System.out.println("Thoi diem truoc khi click: = "+ getDateTimeSecond());
 	    driver.findElement(startBtn).click();
+	    System.out.println("Thoi diem sau khi click:  " + getDateTimeSecond());
 	    
-	    waitExplicit.until(ExpectedConditions.invisibilityOfElementLocated(helloWorldTxt));
-	    Assert.assertTrue(driver.findElement(helloWorldTxt).isDisplayed());
+	    waitExplicit.ignoring(NoSuchElementException.class).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(helloWorldTxt)); 
+	    System.out.println("Ket thuc: = " + getDateTimeSecond());
+	    
+	    //waitExplicit.until(ExpectedConditions.visibilityOfElementLocated(helloWorldTxt));
+	    
+	    //sự khác nhau khi su dụng visibilitOfElementLocated (By.xxxx) --> chiu anh huong cua EplicitWait
+	    //Neu la  visibilityOf(driver.findElement)  --> chiu anh huong cua ImplicitWait
+	    //waitExplicit.until(ExpectedConditions.visibilityOf(driver.findElement(helloWorldTxt)));
+	    
+	    Assert.assertTrue(driver.findElement(helloWorldTxt).isDisplayed());  
+	    
 	}
 	
 	//@Test
+	//Im = 4 ; Ex = 4 ==> FAILED
+	public void TC_05_HelloWorldTextVisibleFailed() {	    
+	    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+	    waitExplicit = new WebDriverWait(driver, 4);   	   
+	    driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
+	    System.out.println("Thoi diem truoc khi click: = "+ getDateTimeSecond());
+	    driver.findElement(startBtn).click();
+	    System.out.println("Thoi diem sau khi click:  " + getDateTimeSecond());
+	    
+	    waitExplicit.ignoring(NoSuchElementException.class).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(helloWorldTxt)); 
+	    System.out.println("Ket thuc: = " + getDateTimeSecond());
+	    
+	    //waitExplicit.until(ExpectedConditions.visibilityOfElementLocated(helloWorldTxt));
+	    
+	    //sự khác nhau khi su dụng visibilitOfElementLocated (By.xxxx) --> chiu anh huong cua EplicitWait
+	    //Neu la  visibilityOf(driver.findElement)  --> chiu anh huong cua ImplicitWait
+	    //waitExplicit.until(ExpectedConditions.visibilityOf(driver.findElement(helloWorldTxt)));
+	    
+	    Assert.assertTrue(driver.findElement(helloWorldTxt).isDisplayed());  
+	    
+	}
+	
+	//@Test
+	//Im >= 5 hoac EX >= 5 ==> PASSED  
+	public void TC_06_HelloWorldTextVisibleFailed() {	    
+	    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+	    waitExplicit = new WebDriverWait(driver, 4);   	   
+	    driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
+	    System.out.println("Thoi diem truoc khi click: = "+ getDateTimeSecond());
+	    driver.findElement(startBtn).click();
+	    System.out.println("Thoi diem sau khi click:  " + getDateTimeSecond());
+	    
+	    waitExplicit.ignoring(NoSuchElementException.class).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(helloWorldTxt)); 
+	    System.out.println("Ket thuc: = " + getDateTimeSecond());
+	    
+	    //waitExplicit.until(ExpectedConditions.visibilityOfElementLocated(helloWorldTxt));
+	    
+	    //sự khác nhau khi su dụng visibilitOfElementLocated (By.xxxx) --> chiu anh huong cua EplicitWait
+	    //Neu la  visibilityOf(driver.findElement)  --> chiu anh huong cua ImplicitWait
+	    //waitExplicit.until(ExpectedConditions.visibilityOf(driver.findElement(helloWorldTxt)));
+	    
+	    Assert.assertTrue(driver.findElement(helloWorldTxt).isDisplayed());  
+	    
+	}
+	@Test
 	public void TC_05_HelloWorldText_LoadingIcon_NoLongerInDOM() {
 	    
 	    driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
